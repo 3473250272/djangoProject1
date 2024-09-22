@@ -1,0 +1,28 @@
+{% extends 'web/layout.html' %}
+{% block content %}
+    <table class="table table-bordered my-table">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>手机号</th>
+            <th>账户余额</th>
+            <th>级别(对应折扣)</th>
+            <th>注册时间</th>
+            <th>注册者</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in query %}
+            <tr>
+                <td>{{ row.username }}</td>
+                <td>{{ row.mobile }}</td>
+                <td>{{ row.balance }}</td>
+                <td>{{ row.level.title }}（~{{ row.level.percent }}%）</td>
+                <td>{{ row.create_date|date:"Y-m-d H:i:s" }}</td>
+                <td>{{ row.creator.username }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'web/layout.html' %}
+
+{% block content %}
+    <!-- 一行三列的form -->
+    <form method="post" novalidate>
+        <div id="form-container" class="row">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="col-12">
+                    <div style="margin-bottom: 20px">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                            {% if field.help_text %}
+                                <small>{{ field.help_text }}</small>
+                            {% endif %}
+                        </label>
+                        {{ field }}
+                        <div class="message">{{ field.errors.0 }}</div>
+                    </div>
+                </div>
+
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 20px">
+            <button type="submit" class="btn btn-primary">保 存</button>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+{% load permission %}
+{% block content %}
+    <div style="margin-bottom: 5px">
+        <a href="{% url 'level_add' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> 新建</a>
+    </div>
+    <table class="table table-bordered my-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>级别</th>
+            <th>折扣</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in queryset %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.title }}</td>
+                <td>{{ row.percent }}%</td>
+                {% if request|has_permission:"level_edit,level_delete" %}
+                    <td>
+                        {% edit_permission request 'level_edit' pk=row.id %}
+                        {% delete_permission request 'level_delete' pk=row.id %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    {% include 'include/delete_modal.html' %}
+
+{% endblock %}
+{% block js %}
+    <script>
+        let DELETE_ID;
+        let DELETE_URL = "{% url 'level_delete' %}";
+    </script>
+    <script src="{% static 'js/delete_modal.js' %}"></script>
+
+{% endblock %}

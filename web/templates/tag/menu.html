@@ -1,0 +1,53 @@
+<div class="accordion" id="layout-menu">
+    <div id="menu-tool">
+        <span>菜单</span>
+        <div id="fast-btn">
+            <i id="expand-all" class="bi bi-arrows-expand" title="全部展开"></i>
+            <i id="collapse-all" class="bi bi-arrows-collapse" title="全部收起"></i>
+        </div>
+    </div>
+    {% for item in menu_list %}
+        <div class="accordion-item">
+            {% if not item.children %}
+                <div class="btn btn-light" style="height: 40px;width: 100%">
+                    <i class="bi {{ item.icon }}"></i>
+                    <span><a class="text-decoration-none text-dark" href="{{ item.url }}">{{ item.text }}</a></span>
+                </div>
+            {% elif item.text != active_menu %}
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ forloop.counter }}"
+                            aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                        <i class="bi {{ item.icon }}"></i><span>{{ item.text }}</span>
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse">
+                    <ul class="menu-item">
+                        {% for child in item.children %}
+                            <li class="{{ child.class }}">
+                                <a class="nav-link" href="{{ child.url }}">{{ child.text }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse{{ forloop.counter }}"
+                            aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                        <i class="bi {{ item.icon }}"></i><span>{{ item.text }}</span>
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse show">
+                    <ul class="menu-item">
+                        {% for child in item.children %}
+                            <li class="{{ child.class }}">
+                                <a class="nav-link" href="{{ child.url }}">{{ child.text }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>

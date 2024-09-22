@@ -1,0 +1,126 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+{% load permission %}
+{% load color %}
+
+{% block css %}
+    <style>
+        .error-message {
+            color: red;
+            position: absolute;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div style="margin-bottom: 5px">
+        <button class="btn btn-light border-black" id="btnAdd">
+            <i class="bi bi-currency-exchange"></i>修改金额
+        </button>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>类型</th>
+            <th>金额</th>
+            <th>订单号</th>
+            <th>时间</th>
+            <th>其他</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in pager.queryset %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>
+                    <strong class="text-{{ row.charge_type|color }} ">{{ row.get_charge_type_display }}</strong>
+                </td>
+                <td>{{ row.amount }}</td>
+                <td>
+                    {% if row.order_oid %}
+                        {{ row.order_oid }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>{{ row.create_datetime|date:"Y-m-d H:i:s" }}</td>
+                <td>
+                    {% if row.memo %}
+                        {{ row.memo }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <ul class="pagination">
+        {{ pager.html }}
+    </ul>
+
+
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="myModalLabel">提交数据</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="addForm">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label class="col-2 control-label">{{ field.label }}</label>
+                                <div class="col-10" style="position: relative;margin-bottom: 25px">
+                                    {{ field }}
+                                    <span class="error-message">{{ field.errors.0 }}</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnAddSubmit">提 交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block js %}
+    <script>
+        $(function () {
+            $("#btnAdd").click(function () {
+                $('#addModal').modal('show');
+            });
+
+            $("#btnAddSubmit").click(function () {
+                $(".error-message").empty();
+                $.ajax({
+                    url: "{% url 'customer_add_change' pk=pk %}",
+                    type: "POST",
+                    data: $("#addForm").serialize(),
+                    dataType: "JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            window.location.reload();
+                        } else {
+                            $.each(res.detail, function (k, v) {
+                                $("#id_" + k).next().text(v[0]);
+                            })
+                        }
+                    }
+                })
+            });
+        })
+    </script>
+{% endblock %}

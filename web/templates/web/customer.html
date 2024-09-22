@@ -1,0 +1,97 @@
+{% extends 'web/layout.html' %}
+{% load static %}
+{% load permission %}
+
+{% block content %}
+    <div style="margin-bottom: 10px">
+        <a href="{% url 'customer_add' %}" class="btn btn-success"><i class="bi bi-plus-circle"></i> 新建</a>
+        <div style="margin-left: auto;float: right">
+            <form class="row g-3">
+                <div class="col-auto">
+                    <input name="keyword" type="text" class="form-control" placeholder="关键字查找" value="{{ keyword }}">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-light border"><i class="bi bi-search"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <table class="table table-bordered my-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>用户名</th>
+            <th>手机号</th>
+            <th>账户余额</th>
+            <th>级别</th>
+            <th>交易记录</th>
+            <th>注册时间</th>
+            <th>重置密码</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in queryset %}
+            <tr data-row-id="{{ row.id }}">
+                <td>{{ row.id }}</td>
+                <td>{{ row.username }}</td>
+                <td>{{ row.mobile }}</td>
+                <td>{{ row.balance }}</td>
+                <td>{{ row.level.title }}（{{ row.level.percent }}%）</td>
+                <td>
+                    <a href="{% url 'customer_change' pk=row.id %}">交易记录</a>
+                </td>
+                <td>{{ row.create_date|date:"Y-m-d H:i:s" }}</td>
+                <td>
+                    <a href="{% url 'customer_reset' pk=row.id %}">重置密码</a>
+                </td>
+                {% if request|has_permission:"customer_edit,customer_delete" %}
+                    <td>
+                        {% edit_permission request 'customer_edit' pk=row.id %}
+                        {% delete_permission request 'customer_delete' pk=row.id %}
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+    <div class="d-flex">
+        <ul class="pagination">
+            {{ pager_string }}
+        </ul>
+        <div style="margin-left: auto;margin-right: 50px">
+            <span style="display: inline-block;">前往</span>
+            <input id="inputField" type="text" class="form-control" style="width: 50px; display: inline-block;">
+            <span style="display: inline-block;">页</span>
+        </div>
+
+    </div>
+
+    {% include 'include/delete_modal.html' %}
+
+
+{% endblock %}
+{% block js %}
+    <script>
+        let DELETE_ID;
+        let DELETE_URL = "{% url 'customer_delete' %}";
+    </script>
+    <script src="{% static 'js/delete_modal.js' %}"></script>
+    <script>
+        document.getElementById('inputField').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                let url = new URL(window.location.href);
+                let params = new URLSearchParams(url.search);
+                let page = $('#inputField').val()
+                params.set('page', page);  // 修改或添加 'page' 参数
+                url.search = params.toString();
+                window.location.href = url.toString();
+            }
+        });
+    </script>
+
+{% endblock %}
+
+

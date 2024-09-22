@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* 登录页面样式 */
+#tab-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    border: 1px solid #c2c2c2;
+    border-radius: 30px;
+    box-shadow: 5px 10px 10px rgb(0 0 0 / 5%);
+}
+
+#pills-pwd-tab, #pills-sms-tab {
+    margin: 20px 5px 0 5px;
+}
+
+.form-group {
+    width: 280px;
+}
+
+#sms-code {
+    position: relative;
+}
+
+#sms-code > button {
+    position: absolute;
+    background-color: #fff;
+    width: 90px;
+    top: 6px;
+    right: 10px;
+    color: #009dff;
+    border: none;
+    outline: none;
+}
+
+#sms-code > span {
+    position: absolute;
+    top: 6px;
+    right: 110px;
+    color: #c4c4c4;
+}
+
+.login-message {
+    position: absolute;
+    margin-top: 0;
+    margin-left: 10px;
+    color: red;
+    font-size: 13px;
+}
+
+.login-btn {
+    width: 200px;
+    height: 40px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* layout布局 */
+#layout {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    min-width: 1400px;
+    max-width: 1800px;
+    height: 100vh;
+}
+
+/* layout header */
+#layout-header {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
+    background-color: #2F72AB;
+}
+
+#app-icon {
+    margin-left: 50px;
+    font-size: 20px;
+    color: white;
+}
+
+#layout-header > .dropdown {
+    position: relative;
+    margin-left: auto;
+    margin-right: 20px;
+}
+
+.user_name {
+    color: white;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.user_icon {
+    height: 40px;
+    width: 40px;
+}
+
+/* layout container */
+#layout-container {
+    position: relative;
+    width: 100%;
+    top: 48px;
+    height: calc(100% - 54px);
+    display: flex;
+    border: 1px solid #b9b9b9;
+}
+
+/* layout menu */
+#layout-menu {
+    width: 180px;
+    background-color: #eaedf1;
+    overflow: auto;
+}
+
+#menu-tool {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+#fast-btn {
+    margin-left: auto;
+}
+
+.accordion-header > button {
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.84);
+}
+
+.accordion-button > i {
+    margin-right: 5px;
+}
+
+.menu-item {
+    list-style-type: none;
+    color: #2F72AB;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-item > li {
+    height: 35px;
+}
+
+.menu-active {
+    border-left: 3px solid #2F72AB; /* 强调当前所在菜单 */
+}
+
+.menu-item > li:hover {
+    border-left: 3px solid #2F72AB;
+}
+
+.menu-item a {
+    line-height: 40px;
+    text-indent: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+#layout-menu::-webkit-scrollbar {
+    width: 5px;
+}
+
+#layout-menu, #layout-content::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+#layout-menu::-webkit-scrollbar-thumb {
+    background-color: #b9b9b9;
+}
+
+/* layout content */
+#layout-content {
+    flex-grow: 1;
+    overflow: auto;
+    border-left: 1px solid #b9b9b9;
+    margin-left: 5px;
+}
+
+#layout-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+#layout-content::-webkit-scrollbar-thumb {
+    background-color: #b9b9b9;
+}
+
+#breadcrumb {
+    list-style-type: none;
+    background-color: #eaedf1;
+}
+
+#breadcrumb ol {
+    margin: 0 0 0 10px;
+}
+
+#breadcrumb li {
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item > span, a {
+    text-decoration: none;
+    color: #444444;
+}
+
+.breadcrumb-item > a:hover {
+    color: #67a4ff;
+}
+
+.message {
+    position: absolute;
+    margin-top: 0;
+    margin-left: 10px;
+    color: red;
+    font-size: 13px;
+}
+
+.my-table > th, td {
+    font-size: 14px;
+}
+
+.my-table > .td-btn {
+
+}
+
+.form-radio {
+    /*display: flex;*/
+}
+
+.page-item > a {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+}
+
+
+
